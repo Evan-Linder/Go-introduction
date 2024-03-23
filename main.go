@@ -3,12 +3,40 @@ package main
 import "fmt"
 
 func main() {
-	// var means variable (mutable), const means constant (unmutable)
+	// var means variable (mutable), const means constant (unmutable), unit does not allow negative integers.
 	var conferenceName = "Go Conference"
 	const conferenceTickets = 50
+	var remainingTickets uint = 50
 
-	// Println = print with a new line
-	fmt.Println("Welcome to", conferenceName, "booking application")
+	// Println = print with a new line, printf works like a f print in python.
+	fmt.Printf("Welcome to %v booking application\n", conferenceName)
+	fmt.Printf("We have a total of %v tickets and %v are still available.\n", conferenceTickets, remainingTickets)
 	fmt.Println("Get your tickets here to attend")
 
+	// create an array to hold bookings. (Arrays are a fixed size).
+
+	// when you dont assign a value you have to specify the data type being passed.
+	var firstName string
+	var lastName string
+	var email string
+	var userTickets int
+
+	// ask user for input
+	fmt.Println("Enter your first name: ")
+	fmt.Scan(&firstName)
+
+	fmt.Println("Enter your last name: ")
+	fmt.Scan(&lastName)
+
+	fmt.Println("Enter your email address: ")
+	fmt.Scan(&email)
+
+	fmt.Println("Enter number of tickets: ")
+	fmt.Scan(&userTickets)
+
+	// take user tickets - remaining tickets
+	remainingTickets = remainingTickets - uint(userTickets)
+
+	fmt.Printf("Thank you %v %v for booking %v tickets. You will recieve a confirmation email at %v.\n", firstName, lastName, userTickets, email)
+	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 }
