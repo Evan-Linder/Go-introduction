@@ -14,10 +14,8 @@ func main() {
 	// create an array to hold bookings. (Arrays are a fixed size) similar to a list in python.
 	bookings := []string{}
 
-	// Println = print with a new line, printf works like a f print in python.
-	fmt.Printf("Book your tickets for %v now!\n", conferenceName)
-	fmt.Printf("We have a total of %v tickets and %v are still available.\n", conferenceTickets, remainingTickets)
-	fmt.Println("Get your tickets here to attend")
+	// call user greeting func
+	greetUser(conferenceName, conferenceTickets, remainingTickets)
 
 	// when you dont assign a value you have to specify the data type being passed.
 	for {
@@ -54,13 +52,8 @@ func main() {
 			fmt.Printf("Thank you %v %v for booking %v tickets. You will recieve a confirmation email at %v.\n", firstName, lastName, userTickets, email)
 			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 
-			// loop through bookings list and slice and add first names to a list.
-			firstNames := []string{}
-			for _, booking := range bookings {
-				var names = strings.Fields(booking)
-				firstNames = append(firstNames, names[0])
-			}
-			fmt.Printf("These are all our bookings: %v\n", firstNames)
+			firstName := getFirstNames(bookings)
+			fmt.Printf("The first names of bookings are: %v\n", firstName)
 
 			// check if remaining tickets is 0
 			if remainingTickets == 0 {
@@ -79,4 +72,21 @@ func main() {
 			}
 		}
 	}
+}
+
+func greetUser(conferenceName string, conferenceTickets int, remainingTickets uint) {
+	// Println = print with a new line, printf works like a f print in python.
+	fmt.Printf("Book your tickets for %v now!\n", conferenceName)
+	fmt.Printf("We have a total of %v tickets and %v are still available.\n", conferenceTickets, remainingTickets)
+	fmt.Println("Get your tickets here to attend")
+}
+
+func getFirstNames(bookings []string) []string {
+	// loop through bookings list and slice and add first names to a list.
+	firstNames := []string{}
+	for _, booking := range bookings {
+		var names = strings.Fields(booking)
+		firstNames = append(firstNames, names[0])
+	}
+	return firstNames
 }
