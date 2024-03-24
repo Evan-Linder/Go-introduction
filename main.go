@@ -5,33 +5,25 @@ import (
 	"strings"
 )
 
+// var means variable (mutable), const means constant (unmutable), unit does not allow negative integers.
+const conferenceTickets = 50
+
+var conferenceName = "GO conference"
+var remainingTickets uint = 50
+var bookings = []string{}
+
 func main() {
-	// var means variable (mutable), const means constant (unmutable), unit does not allow negative integers.
-	var conferenceName = "GO conference"
-	const conferenceTickets = 50
-	var remainingTickets uint = 50
-
-	// create an array to hold bookings. (Arrays are a fixed size) similar to a list in python.
-	bookings := []string{}
-
 	// call user greeting func
-	greetUser(conferenceName, conferenceTickets, remainingTickets)
+	greetUser()
 
 	for {
-
 		firstName, lastName, email, userTickets := getUserInput()
-		isValidName, isValidEmail, isValidTickAmt := validateUserInput(firstName, lastName, email, userTickets, remainingTickets)
+		isValidName, isValidEmail, isValidTickAmt := validateUserInput(firstName, lastName, email, userTickets)
 		//if user tickets is greater than the remaining tickets continue.
 		if isValidName && isValidEmail && isValidTickAmt {
-			remainingTickets = remainingTickets - uint(userTickets)
+			bookTicket(userTickets, firstName, lastName, email)
 
-			// add user to bookings.
-			bookings = append(bookings, firstName+" "+lastName)
-
-			fmt.Printf("Thank you %v %v for booking %v tickets. You will recieve a confirmation email at %v.\n", firstName, lastName, userTickets, email)
-			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
-
-			firstName := getFirstNames(bookings)
+			firstName := getFirstNames()
 			fmt.Printf("The first names of bookings are: %v\n", firstName)
 
 			// check if remaining tickets is 0
@@ -52,14 +44,14 @@ func main() {
 		}
 	}
 }
-func greetUser(conferenceName string, conferenceTickets int, remainingTickets uint) {
+func greetUser() {
 	// Println = print with a new line, printf works like a f print in python.
 	fmt.Printf("Book your tickets for %v now!\n", conferenceName)
 	fmt.Printf("We have a total of %v tickets and %v are still available.\n", conferenceTickets, remainingTickets)
 	fmt.Println("Get your tickets here to attend")
 }
 
-func getFirstNames(bookings []string) []string {
+func getFirstNames() []string {
 	// loop through bookings list and slice and add first names to a list.
 	firstNames := []string{}
 	for _, booking := range bookings {
@@ -67,15 +59,6 @@ func getFirstNames(bookings []string) []string {
 		firstNames = append(firstNames, names[0])
 	}
 	return firstNames
-}
-
-func validateUserInput(firstName string, email string, lastName string, userTickets uint,
-	remainingTickets uint) (bool, bool, bool) {
-	// input validation
-	isValidName := len(firstName) >= 2 && len(lastName) >= 2
-	isValidEmail := strings.Contains(email, "@")
-	isValidTickAmt := userTickets > 0 && userTickets <= uint(remainingTickets)
-	return isValidName, isValidEmail, isValidTickAmt
 }
 
 func getUserInput() (string, string, string, uint) {
@@ -99,4 +82,14 @@ func getUserInput() (string, string, string, uint) {
 	fmt.Scan(&userTickets)
 
 	return firstName, lastName, email, userTickets
+}
+
+func bookTicket(userTickets uint, firstName string, lastName string, email string) {
+	remainingTickets = remainingTickets - uint(userTickets)
+
+	// add user to bookings.
+	bookings = append(bookings, firstName+" "+lastName)
+
+	fmt.Printf("Thank you %v %v for booking %v tickets. You will recieve a confirmation email at %v.\n", firstName, lastName, userTickets, email)
+	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 }
