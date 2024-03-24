@@ -17,31 +17,10 @@ func main() {
 	// call user greeting func
 	greetUser(conferenceName, conferenceTickets, remainingTickets)
 
-	// when you dont assign a value you have to specify the data type being passed.
 	for {
-		var firstName string
-		var lastName string
-		var email string
-		var userTickets int
 
-		// ask user for input
-		fmt.Println("Enter your first name: ")
-		fmt.Scan(&firstName)
-
-		fmt.Println("Enter your last name: ")
-		fmt.Scan(&lastName)
-
-		fmt.Println("Enter your email address: ")
-		fmt.Scan(&email)
-
-		fmt.Println("Enter number of tickets: ")
-		fmt.Scan(&userTickets)
-
-		// input validation
-		isValidName := len(firstName) >= 2 && len(lastName) >= 2
-		isValidEmail := strings.Contains(email, "@")
-		isValidTickAmt := userTickets > 0 && userTickets <= int(remainingTickets)
-
+		firstName, lastName, email, userTickets := getUserInput()
+		isValidName, isValidEmail, isValidTickAmt := validateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 		//if user tickets is greater than the remaining tickets continue.
 		if isValidName && isValidEmail && isValidTickAmt {
 			remainingTickets = remainingTickets - uint(userTickets)
@@ -73,7 +52,6 @@ func main() {
 		}
 	}
 }
-
 func greetUser(conferenceName string, conferenceTickets int, remainingTickets uint) {
 	// Println = print with a new line, printf works like a f print in python.
 	fmt.Printf("Book your tickets for %v now!\n", conferenceName)
@@ -89,4 +67,36 @@ func getFirstNames(bookings []string) []string {
 		firstNames = append(firstNames, names[0])
 	}
 	return firstNames
+}
+
+func validateUserInput(firstName string, email string, lastName string, userTickets uint,
+	remainingTickets uint) (bool, bool, bool) {
+	// input validation
+	isValidName := len(firstName) >= 2 && len(lastName) >= 2
+	isValidEmail := strings.Contains(email, "@")
+	isValidTickAmt := userTickets > 0 && userTickets <= uint(remainingTickets)
+	return isValidName, isValidEmail, isValidTickAmt
+}
+
+func getUserInput() (string, string, string, uint) {
+	// when you dont assign a value you have to specify the data type being passed.
+	var firstName string
+	var lastName string
+	var email string
+	var userTickets uint
+
+	// ask user for input
+	fmt.Println("Enter your first name: ")
+	fmt.Scan(&firstName)
+
+	fmt.Println("Enter your last name: ")
+	fmt.Scan(&lastName)
+
+	fmt.Println("Enter your email address: ")
+	fmt.Scan(&email)
+
+	fmt.Println("Enter number of tickets: ")
+	fmt.Scan(&userTickets)
+
+	return firstName, lastName, email, userTickets
 }
