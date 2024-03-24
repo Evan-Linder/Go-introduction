@@ -1,10 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
 	// var means variable (mutable), const means constant (unmutable), unit does not allow negative integers.
-	var conferenceName = "X-Games Aspen"
+	var conferenceName = "GO conference"
 	const conferenceTickets = 50
 	var remainingTickets uint = 50
 
@@ -36,6 +39,12 @@ func main() {
 		fmt.Println("Enter number of tickets: ")
 		fmt.Scan(&userTickets)
 
+		//if user tickets is greating than the remaining tickets break the loop.
+		if userTickets > int(remainingTickets) {
+			fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets\n", remainingTickets, userTickets)
+			break
+		}
+
 		// take user tickets - remaining tickets
 		remainingTickets = remainingTickets - uint(userTickets)
 
@@ -45,6 +54,20 @@ func main() {
 		fmt.Printf("Thank you %v %v for booking %v tickets. You will recieve a confirmation email at %v.\n", firstName, lastName, userTickets, email)
 		fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 
-		fmt.Printf("These are all our bookings: %v\n", bookings)
+		// loop through bookings list and slice and add first names to a list.
+		firstNames := []string{}
+		for _, booking := range bookings {
+			var names = strings.Fields(booking)
+			firstNames = append(firstNames, names[0])
+		}
+
+		fmt.Printf("These are all our bookings: %v\n", firstNames)
+
+		// check if remaining tickets is 0
+		if remainingTickets == 0 {
+			fmt.Println("Our conference is booked out. Come back next year")
+			break
+		}
+
 	}
 }
